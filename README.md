@@ -25,9 +25,13 @@ When the container is started, a random password is generated for the `SYS, SYST
 
 > [!NOTE]
 > Throughout this document, words enclosed within angle brackets `<` `>` indicate variables in code lines.
+> 
 > To change the default password, see: "_Changing the Default Password for SYS User_"
+> 
 > To learn about advanced use cases, see: "_Custom Configurations_"
+> 
 > This document uses `docker` as the prescribed container runtime, but using contemporary commands is also anticipated to work.
+> 
 > The Oracle Enterprise Manager Database Express (OEM DB Express) is no longer supported with Oracle Database 23ai Free. Please use [SQL Developer](https://www.oracle.com/database/sqldeveloper/) instead, or [Oracle SQL Developer Extension for VSCode](https://marketplace.visualstudio.com/items?itemName=Oracle.sql-developer).
 
 The Oracle Database is ready to use when the `STATUS` field shows `(healthy)` in the `docker ps` output.
@@ -133,7 +137,7 @@ The supported configuration options are:
 
         To use a directory on the host system for the data volume, run the following:
 
-        ```
+        ```sh
          docker run -d --name <oracle-db> \
           -v <writable_directory_path>:/opt/oracle/oradata \
           container-registry.oracle.com/database/free:latest
@@ -153,7 +157,7 @@ To change the password for these accounts, use the `docker exec` command, to run
 
 For example:
 
-```
+```sh
 docker exec <oracle-db> ./setPassword.sh <your_password>
 ```
 
@@ -161,7 +165,7 @@ docker exec <oracle-db> ./setPassword.sh <your_password>
 
 You can access the database alert log by using the following command, where `<oracle-db>` is the name of the container:
 
-```
+```sh
 docker logs <oracle-db>
 ```
 
@@ -173,7 +177,7 @@ After the Oracle Database indicates that the container has started, and the `STA
 
 You can connect to the Oracle Database by running a SQL\*Plus command from within the container using one of the following commands:
 
-```
+```sh
 docker exec -it <oracle-db> sqlplus sys/<your_password>@FREE as sysdba
 
 docker exec -it <oracle-db> sqlplus system/<your_password>@FREE
@@ -189,23 +193,23 @@ To connect from outside of the container, start the container with the `-P` opti
 
 Discover the mapped port by running the following command:
 
-```
+```sh
 docker port <oracle-db>
 ```
 
 To connect from outside of the container using SQL\*Plus, run the following commands:
 
-```
+```sh
 # To connect to the database at the CDB$ROOT level as sysdba:
 sqlplus sys/<your password>@//localhost:<port mapped to 1521>/FREE as sysdba
 ```
 
-```
+```sh
 # To connect as non sysdba at the CDB$ROOT level:
 sqlplus system/<your password>@//localhost:<port mapped to 1521>/FREE
 ```
 
-```
+```sh
 # To connect to the default Pluggable Database (PDB) within the FREE Database:
 sqlplus pdbadmin/<your password>@//localhost:<port mapped to 1521>/FREEPDB1
 ```
@@ -216,7 +220,7 @@ If the database is started using a host system directory mounted at an `/opt/ora
 
 To reuse this directory on the host system for the data volume, run the following commands:
 
-```bash
+```sh
 docker run -d --name <oracle-db> -v \
                      <writable_host_directory_path>:/opt/oracle/oradata \
                      container-registry.oracle.com/database/free:latest
@@ -232,7 +236,7 @@ After the database is set up or started, the scripts in those folders are run ag
 
 The following example mounts the local directory `/home/oracle/myScripts` to `/opt/oracle/scripts/startup`, which is then searched for custom startup scripts:
 
-```
+```sh
 docker run -d --name <oracle-db> -v \
                      /home/oracle/myScripts:/opt/oracle/scripts/startup \
                      container-registry.oracle.com/database/free:latest
@@ -247,13 +251,13 @@ Oracle True Cache is an in-memory, consistent, and automatically managed cache f
 *   Oracle Database Free True Cache container (True Cache container) and the Oracle Database Free Primary Database container (Primary Database container) must be on the same docker network to communicate with each other.
     Set up a docker network for inter-container communication using the following command which creates a bridge connection enabling communication between containers on the same host.
 
-    ```
+    ```sh
     docker network create tc_net
     ```
 
     Fetch the default subnet assigned to the preceding network by running the following command:
 
-    ```
+    ```sh
     docker inspect tc_net | grep -iw 'subnet'
     ```
 
@@ -269,7 +273,7 @@ Ensure that the database password is specified as a docker secret to both the Pr
 
 *   Launch the Oracle Database Free Primary Database container using the `docker run` command as follows:
 
-    ```
+    ```sh
     docker run -td --name pri-db-free \
     --hostname pri-db-free \
     --net=tc_net \
@@ -288,7 +292,7 @@ Ensure that the database password is specified as a docker secret to both the Pr
 
 *   Launch the Oracle Database Free True Cache container using the `docker run` command as follows:
 
-    ```
+    ```sh
     docker run -td --name tru-cc-free \
     --hostname tru-cc-free \
     --net=tc_net \
@@ -314,8 +318,8 @@ Ensure that the database password is specified as a docker secret to both the Pr
 
 Like the Full image, the Oracle Database 23ai Free Lite Container image also contains a pre-built database, so the **startup time is very fast**. Fast startup can be helpful in CI/CD scenarios. To start the container, run the following command where,`<oracle-db>` is the name of the container:
 
-```
-$ docker run -d --name <oracle-db> container-registry.oracle.com/database/free:23.5.0.0-lite
+```sh
+docker run -d --name <oracle-db> container-registry.oracle.com/database/free:23.5.0.0-lite
 ```
 
 When the container is started, a random password is generated for the `SYS, SYSTEM, and PDBADMIN` users. This is termed as the default password.
@@ -326,7 +330,7 @@ The Oracle Database is ready to use when the `STATUS` field shows `(healthy)` in
 
 To facilitate custom configurations, the Oracle Database container provides configuration parameters that you can use when starting the container. For example, this is the detailed `docker run` command supporting all custom configurations:
 
-```bash
+```sh
 docker run --name <container name> \
 -p <host port>:1521 -p  \
 -e ORACLE_PDB=<your PDB name> \
