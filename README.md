@@ -26,9 +26,13 @@ When the container is started, a random password is generated for the `SYS, SYST
 #### Note:
 > [!NOTE]
 > Throughout this document, words enclosed within angle brackets `<` `>` indicate variables in code lines.
+>
 > To change the default password, see: "_Changing the Default Password for SYS User_"
+>
 > To learn about advanced use cases, see: "_Custom Configurations_"
+>
 > This document uses `docker` as the prescribed container runtime, but using contemporary commands is also anticipated to work.
+>
 >The Oracle Enterprise Manager Database Express (OEM DB Express) is no longer supported with Oracle Database 23ai Free. Please use [SQL Developer](https://www.oracle.com/database/sqldeveloper/) instead, or [Oracle SQL Developer Extension for VSCode](https://marketplace.visualstudio.com/items?itemName=Oracle.sql-developer).
 
 The Oracle Database is ready to use when the `STATUS` field shows `(healthy)` in the `docker ps` output.
