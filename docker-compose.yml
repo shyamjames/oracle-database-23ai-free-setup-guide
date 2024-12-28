@@ -1,0 +1,23 @@
+services:
+  oracle-db:
+    image: container-registry.oracle.com/database/free:23.5.0.0
+    container_name: oracle-db
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    environment:
+      - ORACLE_PWD=Welcome1
+      - ORACLE_CHARACTERSET=AL32UTF8
+      - ORACLE_EDITION=EE
+      - ORACLE_SID=ORCLCDB
+      - ORACLE_BASE=/opt/oracle
+      - ORACLE_HOME=/opt/oracle/product/19c/dbhome_1
+    volumes:
+      - ./data:/opt/oracle/oradata
+    networks:
+      - oracle-net
+    restart: unless-stopped
+
+networks:
+  oracle-net:
+    driver: bridge
