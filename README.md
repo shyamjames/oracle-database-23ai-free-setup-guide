@@ -15,8 +15,7 @@ The `docker-compose.yml` file defines a service named `oracle-db` with the follo
 - Environment Variables:
   - `ORACLE_PWD`: Database password (e.g., `Welcome1234`)
   - `ORACLE_CHARACTERSET`: Character set for the database (e.g., `AL32UTF8`)
-  - `ORACLE_EDITION`: Oracle edition (e.g., `enterprise` or `standard`)
-  - `ORACLE_SID`: Oracle system identifier (e.g., `ORCLCDB`)
+
 - Volume: Mounts the `./data` directory on the host to `/opt/oracle/oradata` in the container. This ensures data persistence.
 - Network: Utilizes the `oracle-net` bridge network.
 - Restart Policy: Restarts automatically unless explicitly stopped.
@@ -36,7 +35,7 @@ Before running the Oracle Database container, ensure that you have Docker and Do
 Clone this repository to your local machine using the following command:
 
 ```bash
-git clone
+git clone https://github.com/shyamjames/oracle-database-23ai-free-setup-guide.git
 ```
 
 ### Step 3: Set the Oracle Database Password

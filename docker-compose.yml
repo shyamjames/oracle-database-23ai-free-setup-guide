@@ -6,13 +6,10 @@ services:
       - "1521:1521"
       - "5500:5500"
     environment:
-      - ORACLE_PWD=Welcome1
+      - ORACLE_PWD=password
       - ORACLE_CHARACTERSET=AL32UTF8
-      - ORACLE_EDITION=EE
-      - ORACLE_SID=ORCLCDB
-      - ORACLE_BASE=/opt/oracle
-      - ORACLE_HOME=/opt/oracle/product/19c/dbhome_1
     volumes:
+      # Ensure your ./data directory has sufficient permissions and space on your host
       - ./data:/opt/oracle/oradata
     networks:
       - oracle-net

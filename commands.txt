@@ -1,0 +1,4 @@
+docker-compose up -d 
+docker logs -f oracle-db
+
+sqlplus SYSTEM/password@localhost:1521/FREEPDB1
